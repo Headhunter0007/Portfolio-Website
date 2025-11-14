@@ -499,7 +499,7 @@ export default function Page(): JSX.Element {
                   <div className="relative h-80 w-full bg-black">
                     {/* Replace /profile.jpg with your image in public folder */}
                     <Image
-                      src="/profile.jpg"
+                      src="/tpt.jpg"
                       alt="profile"
                       fill
                       style={{ objectFit: "cover" }}
