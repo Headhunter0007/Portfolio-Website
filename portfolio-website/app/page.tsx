@@ -7,39 +7,85 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ---------- Resume-derived data (pulled from your uploaded resume) ----------
+// ---------- Resume-derived data ----------
 const PERSON = {
-  name: "Sarthak Som Singh",
-  role: "Game Developer / Technical Artist",
-  location: "Chennai, India",
-  phone: "+91-9810338374",
-  email: "your.email@example.com",
+  name: "Yatharth Tripathi",
+  role: "CSE Student — Gaming Technology",
+  location: "Chennai, Tamil Nadu, India",
+  phone: "+91-8738810932",
+  email: "yatharth1207@gmail.com",
   links: {
-    github: "https://github.com/sarcasm18",
-    artstation: "https://www.artstation.com/infernosar",
-    linkedin: "https://www.linkedin.com/in/sarthak-som-singh-06409625a",
+    github: "#",      // add your GitHub when ready
+    artstation: "#",  // replace with a portfolio link if preferred
+    linkedin: "#",    // add your LinkedIn when ready
   },
 };
 
 const SKILLS = [
-  "UE5",
-  "Unity",
-  "C/C++",
-  "Shaders & VFX",
-  "Blender",
-  "Profiling",
-  "Optimization",
-  "Mobile",
+  "Python",
+  "SQL",
+  "Figma",
+  "Adobe",
+  "Unreal Engine 5",
+  "Mediapipe",
+  "Data analysis",
+  "Microsoft Office",
 ];
+
 const PROJECTS = [
-  { title: "Third Person Adventure", tech: "UE5", date: "Nov 2024", link: "#" },
+  { title: "Third‑Person Shooter (GameJam)", tech: "Unreal Engine 5", date: "—", link: "#" },
+  { title: "Game for Stroke Patients", tech: "Therapeutic Games", date: "—", link: "#" },
+  { title: "FITMON", tech: "Mediapipe", date: "—", link: "#" },
+  { title: "Electoral Bond Solution", tech: "Blockchain", date: "—", link: "#" },
+];
+
+type ExperienceItem = {
+  title: string;
+  org: string;
+  date: string;
+  bullets: string[];
+};
+
+const EXPERIENCE: ExperienceItem[] = [
   {
-    title: "HWASOO - Endless Runner",
-    tech: "UE5",
-    date: "Dec 2024",
-    link: "#",
+    title: "Brand & Growth",
+    org: "Basil And Pestle, Delhi",
+    date: "Apr 2025 — Jun 2025",
+    bullets: [
+      "Conducted competitive research and customer behavior analysis, driving 2x online engagement and a 25% rise in UGC.",
+      "Ensured consistent brand tonality and storytelling across packaging, digital creatives, and emailers.",
+      "Leveraged performance analytics across Instagram, Meta Ads, and website traffic to optimize spend; improved ROI by 38%.",
+    ],
   },
-  { title: "Barbaadi - Rage Room", tech: "UE5", date: "Jul 2024", link: "#" },
+  {
+    title: "Directorate of Alumni Affairs",
+    org: "SRM Institute of Science & Technology",
+    date: "Aug 2022 — Present",
+    bullets: [
+      "Led a 60‑member team to engage 300+ alumni through skill‑based events and workshops.",
+      "Developed partnerships with small businesses to secure sponsorships for events and fests.",
+      "Served as a public speaker, strengthening corporate and alumni relationships.",
+    ],
+  },
+  {
+    title: "CHERRY+ Network",
+    org: "SRM Institute of Science & Technology",
+    date: "Jul 2023 — Present",
+    bullets: [
+      "Managed a team to run workshops on app development and UI/UX, aligned to student needs.",
+      "Collaborated with external stakeholders to run donation drives and community initiatives.",
+      "Contributed to strategic planning and execution for technical programs.",
+    ],
+  },
+  {
+    title: "Game Developer’s Community",
+    org: "SRM Institute of Science & Technology",
+    date: "May 2023 — Present",
+    bullets: [
+      "Contributed to Game Jams and Hackathons, collaborating on game projects.",
+      "Worked with SRM Hospital’s Occupational Therapy team to build therapeutic games for stroke patients.",
+    ],
+  },
 ];
 
 // small helper
@@ -194,7 +240,7 @@ export default function Page(): JSX.Element {
       ScrollTrigger.refresh();
     }, rootRef);
 
-    // canvas particle system (simple physics) - created outside gsap context for perf
+    // canvas particle system
     const canvas = canvasRef.current;
     let animationId: number;
     if (canvas) {
@@ -241,9 +287,10 @@ export default function Page(): JSX.Element {
       };
 
       function loop() {
+        if (!canvas || !ctx2) return;
         const w = canvas.clientWidth;
         const h = canvas.clientHeight;
-        ctx2.clearRect(0, 0, w, h);
+        ctx2!.clearRect(0, 0, w, h);
 
         // spawn gentle ambient particles near mouse
         if (mouse.active && Math.random() < 0.2) spawn(mouse.x, mouse.y, 1);
@@ -277,11 +324,11 @@ export default function Page(): JSX.Element {
           p.life -= 1;
 
           // draw (neon green / cyan glow)
-          ctx2.beginPath();
+          ctx2!.beginPath();
           const alpha = Math.max(0, Math.min(1, p.life / 100));
-          ctx2.fillStyle = `rgba(72, 241, 138, ${alpha})`;
-          ctx2.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx2.fill();
+          ctx2!.fillStyle = `rgba(72, 241, 138, ${alpha})`;
+          ctx2!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx2!.fill();
 
           // remove
           if (p.life <= 0 || p.y > h + 50 || p.x < -50 || p.x > w + 50)
@@ -402,9 +449,10 @@ export default function Page(): JSX.Element {
               </h1>
 
               <p className="mt-6 text-slate-200/70 max-w-xl reveal">
-                I craft realtime VFX, shaders and gameplay systems — shipping
-                optimized, playable prototypes across mobile and PC. My work
-                focuses on tight feel, high performance and memorable visuals.
+                Passionate Computer Science student specializing in Gaming
+                Technology, focused on problem solving, creativity, and
+                building projects that make an impact across game jams,
+                hackathons, and community initiatives.
               </p>
 
               <div className="mt-6 flex gap-3">
@@ -418,7 +466,7 @@ export default function Page(): JSX.Element {
                   href={PERSON.links.artstation}
                   className="inline-block rounded-md px-4 py-2 bg-gradient-to-r from-green-500 to-green-400 text-black font-medium hover:brightness-105 transition"
                 >
-                  Art
+                  Portfolio
                 </a>
               </div>
 
@@ -446,7 +494,7 @@ export default function Page(): JSX.Element {
             </div>
 
             <div className="flex justify-center md:justify-end">
-              <div className="relative w-full max-w-[520px]">
+              <div className="relative w/full max-w-[520px]">
                 <div className="rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8)] bg-gradient-to-br from-white/3 to-white/6 border border-white/6">
                   <div className="relative h-80 w-full bg-black">
                     {/* Replace /profile.jpg with your image in public folder */}
@@ -459,8 +507,8 @@ export default function Page(): JSX.Element {
                   </div>
                 </div>
                 <div className="mt-4 text-sm text-green-200/60">
-                  Highlights: mobile fps +10% • LOD & atlas optimization •
-                  shipped prototypes
+                  Highlights: GameJam projects • therapeutic games • blockchain
+                  hackathon
                 </div>
               </div>
             </div>
@@ -519,35 +567,24 @@ export default function Page(): JSX.Element {
               Experience
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="rounded-xl p-5 bg-white/3 border border-white/6 reveal">
-                <div className="font-semibold text-green-100">
-                  Technical Artist Intern — Nukebox Studios
+              {EXPERIENCE.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-xl p-5 bg-white/3 border border-white/6 reveal"
+                >
+                  <div className="font-semibold text-green-100">
+                    {item.title} — {item.org}
+                  </div>
+                  <div className="text-sm text-green-200/60 mt-1">
+                    {item.date}
+                  </div>
+                  <ul className="mt-3 list-disc pl-5 text-green-50/90">
+                    {item.bullets.map((b, i) => (
+                      <li key={i}>{b}</li>
+                    ))}
+                  </ul>
                 </div>
-                <div className="text-sm text-green-200/60 mt-1">
-                  Jun 2025 — Jul 2025
-                </div>
-                <ul className="mt-3 list-disc pl-5 text-green-50/90">
-                  <li>
-                    Built shaders & VFX; integrated UE5 assets and optimized
-                    draw calls.
-                  </li>
-                  <li>Reduced memory footprint via atlas & LOD strategies.</li>
-                </ul>
-              </div>
-
-              <div className="rounded-xl p-5 bg-white/3 border border-white/6 reveal">
-                <div className="font-semibold text-green-100">
-                  Level Designer — Shikshaverse
-                </div>
-                <div className="text-sm text-green-200/60 mt-1">
-                  Oct 2023 — Dec 2023
-                </div>
-                <ul className="mt-3 list-disc pl-5 text-green-50/90">
-                  <li>
-                    Designed biology-themed levels, shipped playable content.
-                  </li>
-                </ul>
-              </div>
+              ))}
             </div>
           </div>
         </section>
